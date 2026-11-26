@@ -28,6 +28,16 @@ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=gyselalibxx/toolchains/cpu.spack.gyse
 cmake --build build -j 4 -t gys_checkpointing
 ```
 
+On supported HPC platforms, ready-made environments for this mini-app are
+provided by the [NumPEx spack-stack](https://github.com/numpex/spack-stack)
+(projects `mini-app-io` and `mini-app-insitu`). The launch scripts accept any
+Spack installation and environment through the `SPACK_DIR` and
+`SPACK_ENV_NAME` variables:
+
+```bash
+SPACK_ENV_NAME=mini-app-insitu-v100--v2026-10-16-0 ./simulations/checkpointing/deisa-dask_launch_script.sh 1 1
+```
+
 ## Usage
 
 ### Basic run
