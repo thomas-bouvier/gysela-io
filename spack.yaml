@@ -34,7 +34,7 @@ spack:
   - py-sympy@1.13
   - py-xarray
   - py-bokeh
-  - py-deisa-dask
+  - py-deisa-dask@0.6.2
   view: true
   concretizer:
     unify: true
