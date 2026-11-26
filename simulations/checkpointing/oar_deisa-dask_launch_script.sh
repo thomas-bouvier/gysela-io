@@ -7,7 +7,7 @@ DASK_THREADS_PER_WORKER=${3:-2}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(cd $SCRIPT_DIR/../.. && pwd)"
 
-. $SCRIPT_DIR/env-miniapp-io.sh
+. $SCRIPT_DIR/activate_deisa_spack_env.sh
 
 export DASK_DISTRIBUTED__WORKER__MEMORY__SPILL=False
 export DASK_DISTRIBUTED__WORKER__MEMORY__TARGET=False
@@ -37,7 +37,7 @@ export DEISA_DASK_SCHEDULER_ADDRESS=$(jq -r '.["address"]' $SCHEFILE)
 echo "Launch workers"
 dask_worker_pids=()
 for NODE in "${WORKER_NODES[@]}"; do
-    oarsh ${NODE} ". $BASE_DIR/simulations/io/env-miniapp-io.sh && dask worker \
+    oarsh ${NODE} ". $SCRIPT_DIR/activate_deisa_spack_env.sh && dask worker \
         --nworkers 1 \
         --nthreads ${DASK_THREADS_PER_WORKER} \
         --local-directory /tmp \
@@ -55,7 +55,7 @@ mpirun -machinefile $MPI_NODEFILE \
 	--prefix $(dirname $(dirname $(which mpirun))) \
 	-x PYTHONPATH \
 	-x DEISA_DASK_SCHEDULER_ADDRESS \
-	-n $SIMU_NODES build/simulations/io/gys_io simulations/io/params/gys_io.yaml simulations/io/params/pdi_deisa.yaml &
+	-n $SIMU_NODES build/simulations/checkpointing/gys_checkpointing simulations/checkpointing/params/gys_checkpointing.yaml simulations/checkpointing/params/pdi_deisa.yaml &
 simu_pid=$!
 
 wait ${analytics_pid}
