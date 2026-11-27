@@ -38,6 +38,9 @@ spack:
   view: true
   concretizer:
     unify: true
+  repos:
+    builtin:
+      branch: releases/v2026.10
   packages:
     all:
       variants: ~fortran ~mpi ~openmp cxxstd=17
